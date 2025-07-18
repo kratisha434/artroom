@@ -1,20 +1,35 @@
  import { useState } from "react";
+ import axios from "axios";
 
- function Login() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault(); // prevent page reload
 
-    if (!email || !password) {
-      alert("Please enter both email and password.");
-      return;
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+         email,
+         password 
+        });
+     
+        
+
+      const data = await res.json();
+
+      if (res.ok) {
+        console.log("Login successful", data);
+        localStorage.setItem("token", data.token || "dummy-token");
+        alert("Welcome, " + (data.user?.email || "User"));
+        // TODO: Navigate to home or dashboard
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Something went wrong. Please try again.");
     }
-
-    console.log("Login Info:", { email, password });
-    alert("Logged in (check console)");
-    // later we'll verify this with backend
   };
 
   return (
@@ -32,6 +47,7 @@
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
+          required
         />
 
         <label className="block mb-2 text-sm font-medium text-gray-700">Password</label>
@@ -41,6 +57,7 @@
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="••••••••"
+          required
         />
 
         <button
@@ -53,4 +70,5 @@
     </div>
   );
 }
+
 export default Login;

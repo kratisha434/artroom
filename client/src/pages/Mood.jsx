@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 
 
@@ -13,6 +13,7 @@ const moods = [
  function Mood() {
   const [selectedMood, setSelectedMood] = useState(null);
   const [note, setNote] = useState("");
+  const [entries, setEntries] = useState([]); 
 
   const handleSave = async () => {
   if (!selectedMood) return;
@@ -42,9 +43,12 @@ const fetchMoods = async () => {
     }
   };
 
-  useEffect(() => {
-    fetchMoods();
-  }, []);
+ useEffect(() => {
+  fetch("http://localhost:5000/api/mood") 
+    .then(res => res.json())
+    .then(data => setEntries(data))
+    .catch(err => console.error("Failed to fetch moods:", err));
+}, []);
 
   return (
     <div className="max-w-xl mx-auto p-4">
