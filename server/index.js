@@ -1,27 +1,23 @@
-// server/index.js
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
+import express, { json } from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import connectDB from './db.js';
+import journalRoutes from './routes/journalRoutes.js'; 
+import poetryRoutes from './routes/poetryRoutes.js';
 
-dotenv.config();
+dotenv.config();      
+connectDB();        
 
 const app = express();
-app.use(cors());
-app.use(express.json());
-
 const PORT = process.env.PORT || 5000;
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log("MongoDB connected");
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}).catch((err) => console.error("DB Connection Failed:", err));
+app.use(cors());
+app.use(json());
 
-// Simple route
-app.get("/", (req, res) => {
-  res.send("Welcome to ArtRoom Backend!");
+app.use('/api/journal', journalRoutes);
+app.use('/api/poetry', poetryRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

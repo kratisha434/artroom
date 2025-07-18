@@ -4,6 +4,12 @@
   padding: 2rem;
   text-align: center;
 }
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #fefefe;
+}
+
 
 .logo {
   height: 6em;
