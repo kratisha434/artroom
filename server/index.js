@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import connectDB from './db.js';
 import journalRoutes from './routes/journalRoutes.js'; 
 import poetryRoutes from './routes/poetryRoutes.js';
+import moodRoutes from './routes/moodRoutes.js';
 
 dotenv.config();      
 connectDB();        
@@ -17,6 +18,7 @@ app.use(json());
 
 app.use('/api/journal', journalRoutes);
 app.use('/api/poetry', poetryRoutes);
+app.use('/api/mood', moodRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

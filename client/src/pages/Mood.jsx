@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from "axios";
+
 
 const moods = [
   { emoji: "😊", label: "Happy" },
@@ -12,17 +14,37 @@ const moods = [
   const [selectedMood, setSelectedMood] = useState(null);
   const [note, setNote] = useState("");
 
-  const handleSave = () => {
-    const moodEntry = {
-      mood: selectedMood,
-      note,
-      date: new Date().toLocaleDateString()
-    };
-    console.log("Mood Saved:", moodEntry);
-    alert("Mood saved (check console)");
+  const handleSave = async () => {
+  if (!selectedMood) return;
+
+  const moodEntry = {
+    mood: selectedMood.label,
+    note
+  };
+
+  try {
+    await axios.post("http://localhost:5000/api/mood", moodEntry);
+    alert("Mood saved!");
     setNote("");
     setSelectedMood(null);
+    fetchMoods(); // to refresh the list
+  } catch (err) {
+    console.error("Error saving mood:", err);
+    alert("Error saving mood.");
+  }
+};
+const fetchMoods = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/mood");
+      setEntries(res.data);
+    } catch (err) {
+      console.error("Error fetching moods:", err);
+    }
   };
+
+  useEffect(() => {
+    fetchMoods();
+  }, []);
 
   return (
     <div className="max-w-xl mx-auto p-4">
@@ -58,6 +80,18 @@ const moods = [
       >
         Save Mood
       </button>
+      <h3 className="text-xl font-semibold mt-8 mb-4">🗓 Recent Entries</h3>
+      {entries.map((entry) => (
+        <div key={entry._id} className="border rounded p-3 mb-2 bg-white shadow">
+          <p>
+            <strong>{entry.mood}</strong>{" "}
+            <span className="text-gray-500 text-sm">
+              ({new Date(entry.createdAt).toLocaleString()})
+            </span>
+          </p>
+          {entry.note && <p className="mt-1 text-gray-700">{entry.note}</p>}
+        </div>
+      ))}
     </div>
   );
 }
