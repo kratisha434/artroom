@@ -1,14 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     try {
       const res = await axios.post("http://localhost:5000/api/auth/register", {
         username,
@@ -16,12 +17,11 @@ function Register() {
         password,
       });
 
-      alert("Registration successful. You can now login.");
-      console.log(res.data);
-      // navigate("/login"); // if using react-router
+      localStorage.setItem("token", res.data.token);
+      alert("Registered successfully. Welcome, " + res.data.user.username);
+      navigate("/"); // 👈 redirect to home/dashboard
 
     } catch (err) {
-      console.error(err);
       alert(err.response?.data?.error || "Registration failed");
     }
   };
@@ -40,7 +40,7 @@ function Register() {
           className="w-full mb-4 p-2 border border-gray-300 rounded"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Your name"
+          placeholder="e.g. kratisha"
         />
 
         <label className="block mb-2 text-sm font-medium text-gray-700">Email</label>
@@ -71,4 +71,5 @@ function Register() {
     </div>
   );
 }
+
 export default Register;

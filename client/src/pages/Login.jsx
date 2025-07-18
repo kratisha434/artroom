@@ -1,27 +1,25 @@
- import { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // 👈 for redirect
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-
+    e.preventDefault();
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", {
         email,
         password,
       });
 
-      const { token, user } = res.data;
+      localStorage.setItem("token", res.data.token);
+      alert("Welcome, " + res.data.user.username);
 
-      localStorage.setItem("token", token);
-      alert(`Welcome, ${user.username}`);
-      // navigate("/"); // uncomment if using react-router
-
+      navigate("/"); // 👈 redirect to homepage or dashboard
     } catch (err) {
-      console.error(err);
       alert(err.response?.data?.error || "Login failed");
     }
   };
@@ -62,4 +60,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;
