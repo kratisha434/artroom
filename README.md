@@ -1,81 +1,39 @@
-<<<<<<< HEAD
-# 🎨 ArtRoom
+# ArtRoom 🎨📝
 
-**ArtRoom** is a creative self-expression web application where users can freely doodle, journal their thoughts, track their mood, write poetry with prompts, and choose whether to keep entries private or share them publicly. It provides a calming, clutter-free space to explore emotions through visuals and words.
+A creative self-expression platform built with the MERN stack.
 
----
+ 💡 Features
+- 🖌️ Doodle Canvas with Save & Clear
+- 📓 Journal to write and save thoughts
+- 📜 Poetry section with random prompt generator
+- 🌈 Mood Tracker
+- 🔐 Login/Register with JWT Authentication
+- 🔒 Protected Routes
+- 📁 MongoDB storage
 
-## ✨ Features
+ 🛠 Tech Stack
+- Frontend: React + Vite + Tailwind CSS
+- Backend: Node.js + Express
+- Database:MongoDB
+- Auth:JWT + bcrypt
 
-- 📝 **Journal** — Write and save personal rants or thoughts.
-- 🎨 **Doodle** — Freehand drawing board with:
-  - Color picker
-  - Brush width adjustment
-  - Clear canvas
-  - Save drawing as image
-- 📜 **Poetry Section** — Write poems with:
-  - Title and content
-  - Prompt generator for inspiration (random words, phrases, or topics)
-- 😊 **Mood Tracker** — Choose your mood and reflect daily.
-- 🔐 **Login/Signup** — Secure authentication (Planned or integrated).
-- 🌍 **Public/Private Sharing** — Control privacy of your entries (Planned).
+Setup Instructions
 
----
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React, Vite, Tailwind CSS
-- **Backend**: Node.js, Express (Planned)
-- **Database**: MongoDB (Planned)
-- **Others**: HTML5 Canvas, React Router
-
----
-
-## 🚀 Getting Started
-
-### 🔧 Run Locally
-
-1. **Clone the repo**
-```bash
+ 1. Clone the Repo
+'''bash
 git clone https://github.com/kratisha434/artroom.git
-=======
-# 🎨 ArtRoom
+cd artroom
+2. Start the Backend
+cd server
+npm install
+npm run dev
 
-**ArtRoom** is a creative self-expression web application where users can freely doodle, journal their thoughts, track their mood, write poetry with prompts, and choose whether to keep entries private or share them publicly. It provides a calming, clutter-free space to explore emotions through visuals and words.
 
----
+3. Start the Frontend
+cd ../client
+npm install
+npm run dev
+You can now visit http://localhost:5183.
 
-## ✨ Features
-
-- 📝 **Journal** — Write and save personal rants or thoughts.
-- 🎨 **Doodle** — Freehand drawing board with:
-  - Color picker
-  - Brush width adjustment
-  - Clear canvas
-  - Save drawing as image
-- 📜 **Poetry Section** — Write poems with:
-  - Title and content
-  - Prompt generator for inspiration (random words, phrases, or topics)
-- 😊 **Mood Tracker** — Choose your mood and reflect daily.
-- 🔐 **Login/Signup** — Secure authentication (Planned or integrated).
-- 🌍 **Public/Private Sharing** — Control privacy of your entries (Planned).
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend**: React, Vite, Tailwind CSS
-- **Backend**: Node.js, Express (Planned)
-- **Database**: MongoDB (Planned)
-- **Others**: HTML5 Canvas, React Router
-
----
-
-## 🚀 Getting Started
-
-### 🔧 Run Locally
-
-1. **Clone the repo**
-```bash
-git clone https://github.com/kratisha434/artroom.git
->>>>>>> 79acace7de421c3e9814e1243159b2c64e1b3ffb
+👩‍💻 Developed by
+Kratisha Hiran
