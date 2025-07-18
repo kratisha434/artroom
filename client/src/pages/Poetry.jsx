@@ -1,21 +1,34 @@
-import { useState } from "react";
 
+import { useState } from "react";
+import axios from "axios"; 
 const prompts = [
   "A rainy evening", "Lost memories", "Whispers of the wind",
   "The last goodbye", "Childhood dreams", "Colors of silence",
   "Walking alone", "Echoes in the night", "A letter never sent"
 ];
 
- function Poetry() {
+function Poetry() {
   const [title, setTitle] = useState("");
   const [poem, setPoem] = useState("");
   const [prompt, setPrompt] = useState(prompts[0]);
 
-  const handleSave = () => {
-    const poemData = { title, poem };
-    console.log("Poem Saved:", poemData);
-    alert("Poem saved (for now in console)");
-    // Later: Send to backend
+  const handleSave = async () => {
+    if (!title || !poem) {
+      alert("Please fill both title and poem.");
+      return;
+    }
+
+    
+    try {
+      const res = await axios.post("http://localhost:5000/api/poetry", title,poem);
+      alert("Poem saved successfully!");
+      console.log(res.data);
+      setTitle("");
+      setPoem("");
+    } catch (error) {
+      console.error("Error saving poem:", error);
+      alert("Failed to save poem.");
+    }
   };
 
   const generatePrompt = () => {
@@ -63,4 +76,5 @@ const prompts = [
     </div>
   );
 }
+
 export default Poetry;

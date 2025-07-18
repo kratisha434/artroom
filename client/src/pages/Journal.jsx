@@ -1,85 +1,74 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
+import axios from '../api/axios';
 
 function Journal() {
-  const [selectedDate, setSelectedDate] = useState(() => {
-    const today = new Date().toISOString().split("T")[0];
-    return today;
-  });
+  const [title, setTitle] = useState('');
+  const [entry, setEntry] = useState('');
+  const [journals, setJournals] = useState([]);
 
-  const [entry, setEntry] = useState("");
+  const fetchJournals = async () => {
+    try {
+      const res = await axios.get('/');
+      setJournals(res.data);
+    } catch (err) {
+      console.error('Error fetching journals:', err);
+    }
+  };
 
-  // Fetch entry when date changes
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Submitting:", title, entry);
+    try {
+      await axios.post('/', { title, entry });
+      setTitle('');
+      setEntry('');
+      fetchJournals(); // Refresh list
+    } catch (err) {
+      console.error('Error submitting journal:', err);
+    }
+  };
+
   useEffect(() => {
-    fetch(`http://localhost:5000/api/journals/${selectedDate}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.content) {
-          setEntry(data.content);
-        } else {
-          setEntry("");
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching journal:", err);
-      });
-  }, [selectedDate]);
-
-  const handleChange = (e) => {
-    const newEntry = e.target.value;
-    setEntry(newEntry);
-  };
-
-  const handleSave = () => {
-    fetch("http://localhost:5000/api/journals", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: selectedDate,
-        content: entry,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Saved:", data);
-        alert("Journal saved!");
-      })
-      .catch((err) => {
-        console.error("Error saving journal:", err);
-        alert("Failed to save");
-      });
-  };
+    fetchJournals();
+  }, []);
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-4">
-      <h2 className="text-2xl font-bold text-center mb-4">📝 Journal</h2>
-
-      <div className="mb-4 text-center">
-        <label className="mr-2 font-medium">Select Date:</label>
+    <div className="p-6 max-w-xl mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Write a Journal</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          className="border p-2 rounded"
+          className="w-full p-2 border rounded"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
+        <textarea
+          className="w-full p-2 border rounded"
+          placeholder="What's on your mind?"
+          value={entry}
+          onChange={(e) => setEntry(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Save Entry
+        </button>
+      </form>
+
+      <div className="mt-6">
+        <h3 className="text-xl font-semibold">Previous Entries</h3>
+        {journals.map((j, idx) => (
+          <div key={idx} className="border p-4 mt-2 rounded bg-gray-50">
+            <h4 className="font-bold">{j.title}</h4>
+            <p>{j.entry}</p>
+            <small className="text-gray-500">
+              {new Date(j.date).toLocaleString()}
+            </small>
+          </div>
+        ))}
       </div>
-
-      <textarea
-        className="w-full h-64 p-4 border border-gray-300 rounded-lg shadow resize-none focus:outline-none focus:ring-2 focus:ring-purple-400"
-        placeholder="Write your thoughts for the selected day..."
-        value={entry}
-        onChange={handleChange}
-      ></textarea>
-
-      <button
-        onClick={handleSave}
-        className="mt-4 bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700"
-      >
-        Save
-      </button>
     </div>
   );
 }
-
 export default Journal;
