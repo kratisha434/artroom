@@ -1,38 +1,47 @@
- import { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
-function Login() {
+function Register() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+  const handleRegister = async (e) => {
+    e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        username,
         email,
         password,
       });
 
-      const { token, user } = res.data;
-
-      localStorage.setItem("token", token);
-      alert(`Welcome, ${user.username}`);
-      // navigate("/"); // uncomment if using react-router
+      alert("Registration successful. You can now login.");
+      console.log(res.data);
+      // navigate("/login"); // if using react-router
 
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.error || "Login failed");
+      alert(err.response?.data?.error || "Registration failed");
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleRegister}
         className="bg-white p-8 rounded shadow-md w-full max-w-sm"
       >
-        <h2 className="text-2xl font-semibold text-center mb-6">Login to ArtRoom</h2>
+        <h2 className="text-2xl font-semibold text-center mb-6">Register for ArtRoom</h2>
+
+        <label className="block mb-2 text-sm font-medium text-gray-700">Username</label>
+        <input
+          type="text"
+          className="w-full mb-4 p-2 border border-gray-300 rounded"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Your name"
+        />
 
         <label className="block mb-2 text-sm font-medium text-gray-700">Email</label>
         <input
@@ -54,12 +63,12 @@ function Login() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+          className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded"
         >
-          Login
+          Register
         </button>
       </form>
     </div>
   );
 }
-export default Login;
+export default Register;

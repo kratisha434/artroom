@@ -11,6 +11,7 @@ function Navbar() {
         <Link to="/poetry" className="text-blue-600 hover:text-blue-800 px-2 py-1">Poetry</Link>
         <Link to="/mood" className="text-blue-600 hover:text-blue-800 px-2 py-1">Mood</Link>
         <Link to="/login" className="text-blue-600 hover:text-blue-800 px-2 py-1">Login</Link>
+        <Link to="/register" className="text-blue-600 hover:text-blue-800 px-2 py-1">Register</Link>
       </div>
     </nav>
   );
