@@ -24,7 +24,7 @@ const moods = [
   };
 
   try {
-    await axios.post("http://localhost:5000/api/mood", moodEntry);
+    await axios.post("https://artroom.onrender.com/api/mood", moodEntry);
     alert("Mood saved!");
     setNote("");
     setSelectedMood(null);
