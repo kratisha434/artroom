@@ -8,7 +8,7 @@ function Journal() {
 
   const fetchJournals = async () => {
     try {
-      const res = await axios.get('/');
+      const res = await axios.get('https://artroom.onrender.com/api/journal');
       setJournals(res.data);
     } catch (err) {
       console.error('Error fetching journals:', err);
