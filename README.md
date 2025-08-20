@@ -33,7 +33,7 @@ npm run dev
 cd ../client
 npm install
 npm run dev
-You can now visit http://localhost:5183.
+You can now visit http://localhost:5173.
 
 👩‍💻 Developed by
 Kratisha Hiran
