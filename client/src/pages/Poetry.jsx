@@ -20,7 +20,7 @@ function Poetry() {
     }
 
     try {
-      const res = await axios.post("https://artroom.onrender.com/api/poetry", {
+      const res = await axios.post("/api/poetry", {
         title,
         poem,
       });
@@ -37,7 +37,7 @@ function Poetry() {
 
   const fetchAllPoems = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/poetry");
+      const res = await axios.get("/api/poetry");
       setAllPoems(res.data.reverse()); // Reverse to show latest first
     } catch (err) {
       console.error("Error fetching poems:", err);

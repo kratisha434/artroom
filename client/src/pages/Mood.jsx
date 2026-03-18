@@ -24,7 +24,7 @@ const moods = [
   };
 
   try {
-    await axios.post("https://artroom.onrender.com/api/mood", moodEntry);
+    await axios.post("/api/mood", moodEntry);
     alert("Mood saved!");
     setNote("");
     setSelectedMood(null);
@@ -36,19 +36,17 @@ const moods = [
 };
 const fetchMoods = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/mood");
+      const res = await axios.get("/api/mood");
       setEntries(res.data);
     } catch (err) {
       console.error("Error fetching moods:", err);
     }
   };
 
- useEffect(() => {
-  fetch("http://localhost:5000/api/mood") 
-    .then(res => res.json())
-    .then(data => setEntries(data))
-    .catch(err => console.error("Failed to fetch moods:", err));
+useEffect(() => {
+  fetchMoods();
 }, []);
+
 
   return (
     <div className="max-w-xl mx-auto p-4">

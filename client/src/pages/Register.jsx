@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -11,7 +11,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://artroom.onrender.com/api/auth/register", {
+      const res = await axios.post("/api/auth/register", {
         username,
         email,
         password,
